@@ -10,6 +10,7 @@ const App = () => {
     const [message, setMessage] = useState("");
     const [selectedMovieId, setSelectedMovieId] = useState(null); // Gère l'affichage d'un seul film
 
+
     const getMovies = async (title) => {
         try {
             const response = await fetch(`${API_URL}/movies?title=${title}`);
@@ -27,20 +28,57 @@ const App = () => {
     };
 
     const handleTerm = (e) => {
-        setSearchTerm(e.target.value.replace(/[^a-zA-Z0-9\s]/g, ""));
-        setMessage("");
+        const searchTerm = e.target.value;
+
+        const validate = (term) => {
+
+            const regex = /^[a-zA-Z0-9\s-_]*$/i;
+
+            // Si le terme de recherche contient des caractères spéciaux
+            if (!regex.test(term)) {
+                setMessage(`Les caractères spéciaux ne sont pas autorisés.`);
+                return false;
+            }
+            // Si le terme de recherche est vide
+            if (term.trim() === "") {
+                setMessage("Veuillez entrer un nom de film ou une série.");
+                return false;
+            }
+            // Si ok, reset le message
+            setMessage("");
+            return true;
+        }
+        // Mettre à jour le terme de recherche
+        setSearchTerm(searchTerm);
+
+        // Empêcher l'envoi si la validation échoue
+        if (!validate(searchTerm))
+            return;
     };
+
 
     return (
         <div className="app">
             <h1>Movie Finder</h1>
+
             <div className="search">
                 <input
                     value={searchTerm}
                     onChange={handleTerm}
                     placeholder="Entrez un nom de film ou une série"
                 />
-                <img src={SearchIcon} alt="search" onClick={() => getMovies(searchTerm)} />
+                <img
+                    src={SearchIcon}
+                    alt="search"
+                    onClick={() => {
+                        if (searchTerm.trim() === "") { // Si le terme de recherche est vide empêche la recherche
+                            setMessage("Veuillez entrer un nom de film ou une série.");
+                            return;
+                        }
+                        getMovies(searchTerm);
+                    }}
+                />
+
             </div>
             {message && <p className="message">{message}</p>}
 
@@ -52,6 +90,7 @@ const App = () => {
                     setSelectedMovieId={setSelectedMovieId}
                 />
             ) : (
+                // Sinon, afficher la liste des films recherchés par le titre
                 <div className="container">
                     {movies.map((movie) => (
                         <MovieCard

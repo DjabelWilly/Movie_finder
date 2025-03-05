@@ -29,7 +29,7 @@ h1 {
   font-size: 2.3rem;
   letter-spacing: 0.9px;
   color: #eb5a11f0;
-  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.886);
 }
 
 .search {
@@ -223,7 +223,7 @@ img {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
-
+/* Bouton pour fermer la fenêtre */
 .movie-details button {
   padding: 7px 12px;
   font-size: 1.1rem;
@@ -235,6 +235,10 @@ img {
   position: absolute;
   left: 95%;
   transform: translateX(-50%);
+}
+
+.movie-details p {
+  margin-bottom: 8px;
 }
 
 @media screen and (max-width: 650px) {
@@ -251,7 +255,8 @@ img {
   color: #f0f2f0de;
 }
 
-.error-message {
+.message {
   color: red;
-  font-weight: bold;
+  font-weight: semibold;
+  text-align: center;
 }

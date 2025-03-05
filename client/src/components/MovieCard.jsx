@@ -9,6 +9,13 @@ const MovieCard = ({ movie, selectedMovieId, setSelectedMovieId }) => {
 
   useEffect(() => {
     if (isSelected) {
+      /**
+       * Récupère les détails d'un film en fonction de son ID
+       * et mets à jour l'état `movieDetails` en conséquence.
+       * @function
+       * @async
+       * @throws {Error} Si la requête API est en erreur.
+       */
       const fetchMovieDetails = async () => {
         try {
           const response = await fetch(`${API_URL}/movieDetails?id=${imdbID}`);
@@ -26,6 +33,7 @@ const MovieCard = ({ movie, selectedMovieId, setSelectedMovieId }) => {
 
   return (
     <>
+      {/* Affiche les films recherchés par le titre */}
       {!isSelected ? (
         <div className="movie" onClick={() => setSelectedMovieId(imdbID)}>
           <div>
@@ -45,6 +53,7 @@ const MovieCard = ({ movie, selectedMovieId, setSelectedMovieId }) => {
           </div>
         </div>
       ) : (
+        // Affiche les détails du film sélectionné
         movieDetails && (
           <div className="movie-details">
             <button onClick={() => setSelectedMovieId(null)}>✖</button>
